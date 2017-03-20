@@ -59,7 +59,7 @@ python venus.py
 ```
 and follow the instructions.
 
-### Argumentos 
+### Arguments 
 
 * **Titulo** - The Name of the 'Work of art'
 * **Capitulo inicial** *(Optional)* - if blank, the program will fetch the first possible
