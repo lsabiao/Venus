@@ -6,7 +6,7 @@
 Aviso Legal:
 
 Esse software foi criado para estudar as aplicações de 'scrapping' de sites.
-Todos os links de downloads foram removidos para evitar o uso indevido, fazendo o software não-utilizavel
+Todos os links de download foram removidos para evitar o uso indevido, fazendo o software não-utilizavel
 o criador (ou seja, eu) não tem nenhuma afiliação ou parceria com qualquer site de pirataria
 
 TL;DR: Não use esse programa para pirataria!
