@@ -35,6 +35,7 @@ Homenagem ao Astro mais brilhante visto no céu noturno sem contar o Sol e Lua.
 * [Colorama](https://github.com/tartley/colorama)
 
 
+![wtfpl](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
 
 
 ## English
@@ -73,3 +74,4 @@ and follow the instructions.
 * [Colorama](https://github.com/tartley/colorama)
 
 
+![wtfpl](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-1.png)
