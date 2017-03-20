@@ -26,7 +26,7 @@ e siga as intruções.
 * **Capitulo final** *(opcional)* - Caso seja omitido, o programa pegará até o último disponível
 
 ### Origem do nome
-Homenagem ao Astro mais brilhante visto no céu noturno sem contar o Sol e Lua.
+Homenagem a **luz** do Astro mais brilhante visto no céu noturno sem contar o Sol e Lua.
 
 ### Dependencias
 * [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/bs4/)
