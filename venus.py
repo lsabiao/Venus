@@ -32,25 +32,35 @@ def pegarImagem(capitulo, pagina ,arg):
     r = requests.get('http://#SITE/manga/{}/{}/{}'.format(arg,capitulo,pagina))
     corpo = r.text
     soup = BeautifulSoup(r.text,"html.parser")
-    if(os.path.exists(preTitulo+"/{cap:02d}".format(cap = capitulo)) == False):
-        os.mkdir(preTitulo+"/{cap:02d}".format(cap = capitulo))
+
+    if(subdir):
+        if(os.path.exists(preTitulo+"/{cap:02d}".format(cap = capitulo)) == False):
+            os.mkdir(preTitulo+"/{cap:02d}".format(cap = capitulo))
     try:
         imagem = soup.find(attrs={"class": "img-responsive"})
         i = requests.get(imagem['src']).content
         i = Image.open(StringIO(i))
-        i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+        if(subdir):
+            i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+        else:
+            i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+
         print Style.BRIGHT+Fore.GREEN+"[OK]"+Style.RESET_ALL
     except:
         print " --- Tentando Download Alternativo... ",
         try:
             i = requests.get(imagem['onerror'].replace("this.src='","")[:-1]).content
             i = Image.open(StringIO(i))
-            i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+            if(subdir):
+                i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+            else:
+                i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
             print Style.BRIGHT+Fore.GREEN+"[OK]"+Style.RESET_ALL
         except (KeyboardInterrupt):
             sys.exit(1)
         except:
             print Style.BRIGHT+Fore.RED+"[Falhou]"+Style.RESET_ALL
+            raise
             return False
     return True
 
@@ -100,7 +110,27 @@ if __name__ == "__main__":
         fim = input(Fore.CYAN+"{C}apitulo final  [vazio para ultimo]: "+Fore.RESET)
     except:
         fim = acharCapitulos(titulo)
-
+    try:
+        sub = raw_input(Style.BRIGHT+Fore.CYAN+"{C}olocar cada capitulo em pastas separadas? [Y/N] "+Fore.RESET)
+        if(sub.lower() == "y"):
+            subdir = True
+        else:
+            subdir = False
+    except:
+        subdir = False
+    #try:
+    #    formt = raw_input(Style.BRIGHT+Fore.CYAN+"{Q}ual formato salvar? [jpg/cbr/ambos] "+Fore.RESET)
+    #    if(formt.lower() == "jpg"):
+    #        form = "jpg"
+    #    elif(formt.lower() == "cbr"):
+    #        form = "cbr"
+    #    elif(formt.lower() == "ambos"):
+    #        form = "ambos"
+    #    else:
+    #        form = "jpg"
+    #except:
+    #    form = "jpg"
+    
     print Style.RESET_ALL
     print
 
