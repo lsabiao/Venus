@@ -1,6 +1,7 @@
-# -*- coding: cp1252 -*-
+# -*- coding: utf-8 -*-
 import requests
 import os
+import shutil
 from StringIO import StringIO
 try:
     from colorama import *
@@ -41,9 +42,9 @@ def pegarImagem(capitulo, pagina ,arg):
         i = requests.get(imagem['src']).content
         i = Image.open(StringIO(i))
         if(subdir):
-            i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+            i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag = pagina),"JPEG")
         else:
-            i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+            i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag = pagina),"JPEG")
 
         print Style.BRIGHT+Fore.GREEN+"[OK]"+Style.RESET_ALL
     except:
@@ -52,9 +53,9 @@ def pegarImagem(capitulo, pagina ,arg):
             i = requests.get(imagem['onerror'].replace("this.src='","")[:-1]).content
             i = Image.open(StringIO(i))
             if(subdir):
-                i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+                i.save(preTitulo+"/{cap:02d}/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag = pagina),"JPEG")
             else:
-                i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag =pagina),"JPEG")
+                i.save(preTitulo+"/E{cap:02d}P{pag:02d}.jpg".format(cap = capitulo, pag = pagina),"JPEG")
             print Style.BRIGHT+Fore.GREEN+"[OK]"+Style.RESET_ALL
         except (KeyboardInterrupt):
             sys.exit(1)
@@ -90,6 +91,20 @@ def acharCapitulos(arg):
     linhas = r.text.split("\n")
     return (len(linhas)-1)
 
+def isCbrPossible():
+    formats = shutil.get_archive_formats()
+    if(('zip', 'ZIP file') in formats):
+        return True
+    else:
+        return False
+
+def makeCbr(path):
+    arquivos = os.listdir(path)
+    name = (path+"/"+str(capitulo))
+    shutil.make_archive(name,'zip',path)
+    shutil.move(name,path+"/"+str(capitulo)+".cbr")
+    return True
+
 def formatarTitulo(s):
     s = s.replace(" ","_")
     return s
@@ -118,18 +133,19 @@ if __name__ == "__main__":
             subdir = False
     except:
         subdir = False
-    #try:
-    #    formt = raw_input(Style.BRIGHT+Fore.CYAN+"{Q}ual formato salvar? [jpg/cbr/ambos] "+Fore.RESET)
-    #    if(formt.lower() == "jpg"):
-    #        form = "jpg"
-    #    elif(formt.lower() == "cbr"):
-    #        form = "cbr"
-    #    elif(formt.lower() == "ambos"):
-    #        form = "ambos"
-    #    else:
-    #        form = "jpg"
-    #except:
-    #    form = "jpg"
+    if(isCbrPossible()):
+        try:
+            formt = raw_input(Style.BRIGHT+Fore.CYAN+"{Q}ual formato salvar? [jpg/cbr/ambos] "+Fore.RESET)
+            if(formt.lower() == "jpg"):
+                form = "jpg"
+            elif(formt.lower() == "cbr"):
+                form = "cbr"
+            elif(formt.lower() == "ambos"):
+                form = "ambos"
+            else:
+                form = "jpg"
+        except:
+            form = "jpg"
     
     print Style.RESET_ALL
     print
@@ -151,5 +167,10 @@ if __name__ == "__main__":
         print "Iniciando capitulo {efeito}{c}{efeitofinal}".format(c = capitulo,efeito=Style.BRIGHT+Fore.BLUE,efeitofinal=Style.RESET_ALL)
         for pagi in xrange(1,capit):
             pegarImagem(capitulo,pagi,titulo)
+
+        if((subdir) and (form == "cbr" or form == "ambos")):
+            p = (preTitulo+"/{cap:02d}".format(cap = capitulo))
+            print "Criando .cbr"
+            makeCbr(p)
     raw_input(Style.BRIGHT+Fore.RED+"[TUDO FEITO]"+Style.RESET_ALL)
 
