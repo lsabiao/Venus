@@ -5,25 +5,31 @@ import shutil
 from StringIO import StringIO
 try:
     from colorama import *
+    init() #colorama
 except:
+ 
     print "Suporte a cores nao encontrado"
     print "tente pip install colorama"
     sys.exit(0)
-print Style.BRIGHT+Fore.RED
+
 try:
     from bs4 import BeautifulSoup
 except:
+    print Style.BRIGHT+Fore.RED,
     print "Parser de html nao encontrado"
     print "tente pip install beautifulsoup4"
+    print Style.RESET_ALL,
     sys.exit(0)
 try:
     from PIL import Image
 except:
+    print Style.BRIGHT+Fore.RED,
     print "biblioteca de imagens nao encontrada"
     print "tente pip install pillow"
+    print Style.RESET_ALL,
     sys.exit(0)
 
-print Style.RESET_ALL
+
 
 
 paginasPorCapitulos = []
@@ -102,7 +108,7 @@ def makeCbr(path):
     arquivos = os.listdir(path)
     name = (path+"/"+str(capitulo))
     shutil.make_archive(name,'zip',path)
-    shutil.move(name,path+"/"+str(capitulo)+".cbr")
+    shutil.move(name+".zip",path+"/"+preTitulo+".cbr")
     return True
 
 def formatarTitulo(s):
@@ -110,11 +116,9 @@ def formatarTitulo(s):
     return s
 
 if __name__ == "__main__":
-    #começa interface
-    init() #colorama
+    #comeÃ§a interface
+    
     print Style.BRIGHT+Fore.YELLOW+"Welcome to "+Fore.MAGENTA+"VENUS"+Fore.YELLOW+" - Manga Downloader"
-    print
-    print
     preTitulo = raw_input(Style.BRIGHT+Fore.CYAN+"{T}itulo: "+Fore.RESET).lower()
     titulo = formatarTitulo(preTitulo)
     try:
@@ -154,6 +158,7 @@ if __name__ == "__main__":
 
     print "Procurando Quantidade de paginas em cada capitulo."
     quantidade = avaliarManga(ini,fim,titulo)
+    print
     print "Encontradas {efeito}{q}{efeitofinal} paginas".format(q=quantidade,efeito=Style.BRIGHT+Fore.YELLOW,efeitofinal=Style.RESET_ALL)
     try:
         os.mkdir(preTitulo)
@@ -170,7 +175,7 @@ if __name__ == "__main__":
 
         if((subdir) and (form == "cbr" or form == "ambos")):
             p = (preTitulo+"/{cap:02d}".format(cap = capitulo))
-            print "Criando .cbr"
+            print Style.BRIGHT+Fore.GREEN+"Criando .cbr"+Style.RESET_ALL
             makeCbr(p)
     raw_input(Style.BRIGHT+Fore.RED+"[TUDO FEITO]"+Style.RESET_ALL)
 
