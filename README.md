@@ -24,6 +24,8 @@ e siga as intruções.
 * **Nome da Obra** - Nome da Obra com espaços
 * **Capitulo inicial** *(Opcional)* - Caso seja omitido, o programa pegará o primeiro disponível
 * **Capitulo final** *(opcional)* - Caso seja omitido, o programa pegará até o último disponível
+* **Colocar cada capitulo em pastas separadas** *(opcional)* - se o programa vai separar os capítulos por pastas
+* **Qual formato Salvar** *(opcional)* - qual formato vai salvar os arquivos.
 
 ### Origem do nome
 Homenagem a **luz** do Astro mais brilhante visto no céu noturno sem contar o Sol e Lua.
@@ -65,6 +67,8 @@ and follow the instructions.
 * **Titulo** - The Name of the 'Work of art'
 * **Capitulo inicial** *(Optional)* - if blank, the program will fetch the first possible
 * **Capitulo final** *(Optional)* - if blank, the program will fetch the all avaible.
+* **Colocar cada capitulo em pastas separadas** *(Optional)* - download every chapter in diferent folders
+* **Qual formato Salvar** *(Optional)* - Which format you want to save (ambos = both)
 
 
 ### Dependencies
