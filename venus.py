@@ -98,16 +98,30 @@ def isCbrPossible():
     else:
         return False
 
-def makeCbr(path):
+def makeCbr(path,full=False):
     arquivos = os.listdir(path)
+    os.mkdir(path+"/temp")
+    for a in arquivos:
+        shutil.move(path+"/"+a,path+"/temp/"+a)
     name = (path+"/"+str(capitulo))
-    shutil.make_archive(name,'zip',path)
-    shutil.move(name,path+"/"+str(capitulo)+".cbr")
+    shutil.make_archive(name,'zip',path+"/temp")
+    if(full):
+        shutil.move(name+".zip",path+"/{n} - {i}:{f}.cbr". format(n = preTitulo, i=ini,f=fim))
+    else:
+        shutil.move(name+".zip",path+"/"+str(capitulo)+".cbr")
     return True
 
 def formatarTitulo(s):
     s = s.replace(" ","_")
     return s
+
+def removeAllJpg(path):
+    arquivos = os.listdir(path)
+    for a in arquivos:
+        if a.endswith(".jpg"):
+            n = path+"/"+a
+            os.remove(n)
+    shutil.rmtree(path+"/temp")
 
 if __name__ == "__main__":
     #começa interface
@@ -150,7 +164,7 @@ if __name__ == "__main__":
     print Style.RESET_ALL
     print
 
-    print "Quantidade de capitulos: {efeito}{f}{efeitofinal}".format(f=fim,efeito=Style.BRIGHT,efeitofinal=Style.RESET_ALL)
+    print "Quantidade de capitulos: {efeito}{f}{efeitofinal}".format(f=(ini-fim+1),efeito=Style.BRIGHT,efeitofinal=Style.RESET_ALL)
 
     print "Procurando Quantidade de paginas em cada capitulo."
     quantidade = avaliarManga(ini,fim,titulo)
@@ -172,5 +186,14 @@ if __name__ == "__main__":
             p = (preTitulo+"/{cap:02d}".format(cap = capitulo))
             print "Criando .cbr"
             makeCbr(p)
+            if(form == "cbr"):
+                removeAllJpg(p) 
+
+    if((subdir == False) and (form == "cbr" or form == "ambos")):
+        p = (preTitulo)
+        makeCbr(p,True)
+        if(form == "cbr"):
+            removeAllJpg(p)
+
     raw_input(Style.BRIGHT+Fore.RED+"[TUDO FEITO]"+Style.RESET_ALL)
 
